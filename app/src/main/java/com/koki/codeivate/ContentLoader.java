@@ -46,7 +46,13 @@ public class ContentLoader {
     private void saveJSON(String jsonString) {
         try {
             Log.i(TAG,"JSON String: " + jsonString);
+            if(jsonString.startsWith("?(") && jsonString.endsWith(");")) {
+                jsonString = jsonString.substring(2,jsonString.length()-2);
+            }
             JSONObject jo = new JSONObject(jsonString);
+            String name = jo.getString("name");
+            Log.i(TAG,"NAME: " + name);
+            Log.i(TAG,"JSON Object: " + jo.toString());
         } catch(JSONException e) {
             e.printStackTrace();
             mCallback.contentLoaderFail(mContext.getString(R.string.errConvertJson));

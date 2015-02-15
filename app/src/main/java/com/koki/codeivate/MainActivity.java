@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,8 +21,9 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, IContentLoaderCallback {
 
+    private static final String TAG = "MainActivity";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -45,6 +47,11 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
+        //Call ContentLoader
+        ContentLoader cl = new ContentLoader(this,this,"roosnic1");
+        cl.loadJSON();
     }
 
     @Override
@@ -104,6 +111,16 @@ public class MainActivity extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void contentLoaderSuccess() {
+
+    }
+
+    @Override
+    public void contentLoaderFail(String errorMessage) {
+        Log.e(TAG,"ContentLoader failed with message: " + errorMessage);
     }
 
     /**
