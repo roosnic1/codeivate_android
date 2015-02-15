@@ -5,11 +5,11 @@ package com.koki.codeivate.Models;
  */
 public class CodeivatePlatform {
     public String name;
-    public Float percent_work;
+    public Double percent_work;
     public Integer points;
     public Integer time;
 
-    public CodeivatePlatform(String name, Float percent_work, Integer points, Integer time) {
+    public CodeivatePlatform(String name, Double percent_work, Integer points, Integer time) {
         this.name = name;
         this.percent_work = percent_work;
         this.points = points;

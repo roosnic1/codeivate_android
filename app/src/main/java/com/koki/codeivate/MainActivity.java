@@ -18,6 +18,9 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.koki.codeivate.Models.CodeivateUser;
 
 
 public class MainActivity extends ActionBarActivity
@@ -114,8 +117,9 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void contentLoaderSuccess() {
-
+    public void contentLoaderSuccess(CodeivateUser user) {
+        Log.i(TAG,"CodeivateUser: " + user.toString());
+        Toast.makeText(this,"USer Ready: "+user.toString(),Toast.LENGTH_LONG).show();
     }
 
     @Override

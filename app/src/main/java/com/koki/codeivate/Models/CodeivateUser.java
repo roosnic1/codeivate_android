@@ -1,7 +1,7 @@
 package com.koki.codeivate.Models;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by koki on 15/02/15.
@@ -9,9 +9,9 @@ import java.util.HashMap;
 public class CodeivateUser implements Serializable {
 
     public String name;
-    public Float level;
-    public Float focus_level;
-    public Float focus_points;
+    public Double level;
+    public Double focus_level;
+    public Integer focus_points;
     public Integer max_streak;
     public Integer total_days_coded;
     public Integer total_flow_states;
@@ -19,10 +19,10 @@ public class CodeivateUser implements Serializable {
     public Boolean programming_now;
     public String current_language;
     public Boolean streaking_now;
-    public HashMap<String,CodeivatePlatform> platforms;
-    public HashMap<String,CodeivateLanguage> languages;
+    public ArrayList<CodeivatePlatform> platforms;
+    public ArrayList<CodeivateLanguage> languages;
 
-    public CodeivateUser(String name,Float level,Float focus_level, Float focus_points, Integer max_streak, Integer total_days_coded, Integer total_flow_states, Integer time_spent, Boolean programming_now, String current_language, Boolean streaking_now, HashMap<String,CodeivatePlatform> platforms, HashMap<String,CodeivateLanguage> languages) {
+    public CodeivateUser(String name,Double level,Double focus_level, Integer focus_points, Integer max_streak, Integer total_days_coded, Integer total_flow_states, Integer time_spent, Boolean programming_now, String current_language, Boolean streaking_now, ArrayList<CodeivatePlatform> platforms, ArrayList<CodeivateLanguage> languages) {
         this.name = name;
         this.level = level;
         this.focus_level = focus_level;

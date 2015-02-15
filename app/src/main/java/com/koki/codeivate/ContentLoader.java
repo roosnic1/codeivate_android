@@ -4,6 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.koki.codeivate.Models.CodeivateLanguage;
+import com.koki.codeivate.Models.CodeivatePlatform;
+import com.koki.codeivate.Models.CodeivateUser;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -17,6 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by koki on 15/02/15.
@@ -53,6 +60,46 @@ public class ContentLoader {
             String name = jo.getString("name");
             Log.i(TAG,"NAME: " + name);
             Log.i(TAG,"JSON Object: " + jo.toString());
+
+            //Get all the Platforms
+            ArrayList<CodeivatePlatform> platforms = new ArrayList<>();
+            JSONObject joPlatforms = jo.optJSONObject("platforms");
+            if(joPlatforms != null) {
+                Iterator<String> keys = joPlatforms.keys();
+                while(keys.hasNext()) {
+                    String key = keys.next();
+                    JSONObject joPlatform = joPlatforms.optJSONObject(key);
+                    if(joPlatform != null) {
+                        CodeivatePlatform platform = new CodeivatePlatform(key,joPlatform.optDouble("percent_work"),joPlatform.optInt("points"),joPlatform.optInt("time"));
+                        platforms.add(platform);
+                    }
+                }
+
+
+            }
+
+            //Get all the Languages
+            ArrayList<CodeivateLanguage> languages = new ArrayList<>();
+            JSONObject joLanguages = jo.optJSONObject("languages");
+            if(joLanguages != null) {
+                Iterator<String> keys = joLanguages.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    JSONObject joLanguage = joLanguages.optJSONObject(key);
+                    if(joLanguage != null) {
+                        CodeivateLanguage language = new CodeivateLanguage(key,joLanguage.optDouble("level"),joLanguage.optInt("points"));
+                        languages.add(language);
+                    }
+                }
+            }
+
+            //Create Codeivate User
+            CodeivateUser user = new CodeivateUser(jo.optString("name"),jo.optDouble("level"),jo.optDouble("focus_level"),jo.optInt("focus_point"),jo.optInt("max_streak"),jo.optInt("total_days_coded"),jo.optInt("total_flow_states"),jo.optInt("time_spent"),jo.optBoolean("programming_now"),jo.optString("current_language"),jo.optBoolean("streaking_now"),platforms,languages);
+
+
+            //Log.i(TAG,"Platforms: " + platforms.toString());
+            //Log.i(TAG,"Languages: " + languages.toString());
+            mCallback.contentLoaderSuccess(user);
         } catch(JSONException e) {
             e.printStackTrace();
             mCallback.contentLoaderFail(mContext.getString(R.string.errConvertJson));

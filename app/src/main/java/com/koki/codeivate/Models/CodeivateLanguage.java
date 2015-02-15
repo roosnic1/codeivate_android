@@ -9,10 +9,10 @@ import java.io.Serializable;
  */
 public class CodeivateLanguage implements Serializable {
     public String name;
-    public Float level;
+    public Double level;
     public Integer points;
 
-    public CodeivateLanguage(String name, Float level, Integer points) {
+    public CodeivateLanguage(String name, Double level, Integer points) {
         this.name = name;
         this.level = level;
         this.points = points;
