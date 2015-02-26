@@ -1,5 +1,6 @@
 package com.koki.codeivate;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -7,6 +8,9 @@ import android.util.Log;
 import com.koki.codeivate.Models.CodeivateLanguage;
 import com.koki.codeivate.Models.CodeivatePlatform;
 import com.koki.codeivate.Models.CodeivateUser;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -46,7 +50,8 @@ public class ContentLoader {
     public void loadJSON() {
         String jsonUrl = String.format(URL + "%s.json?callback=?",mUsername);
         Log.i(TAG,"URL to be called: " + jsonUrl);
-        new LoadJsonTask().execute(jsonUrl);
+        new GetJsonTask().execute(jsonUrl);
+        //new LoadJsonTask().execute(jsonUrl);
     }
 
 
@@ -107,31 +112,19 @@ public class ContentLoader {
     }
 
 
-
-    private class LoadJsonTask extends AsyncTask<String, Void, String> {
+    private class GetJsonTask extends AsyncTask<String,Void,String> {
         @Override
         protected String doInBackground(String... params) {
-            StringBuilder stringBuilder = new StringBuilder();
-            try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(params[0]);
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                InputStream inputStream = httpEntity.getContent();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                inputStream.close();
-                return stringBuilder.toString();
-            } catch(UnsupportedEncodingException | ClientProtocolException e) {
+            try {
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder().url(params[0]).build();
+                Response response = client.newCall(request).execute();
+
+                return response.body().string();
+            } catch (IOException e) {
                 e.printStackTrace();
-                mCallback.contentLoaderFail(mContext.getString(R.string.errLoadHttp));
-            } catch(IOException e) {
-                e.printStackTrace();
-                mCallback.contentLoaderFail(mContext.getString(R.string.errLoadIO));
             }
             return null;
         }
