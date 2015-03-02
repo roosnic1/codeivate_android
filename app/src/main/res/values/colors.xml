@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="main_header">#FF353432</color>
+    <color name="main_header_bright">#FF4E4D4A</color>
+    <color name="main_bar">#FF94BA65</color>
+    <color name="main_blue">#FF2B4E72</color>
+    <color name="main_font_bright">#FF2790B0</color>
+
+
+</resources>
