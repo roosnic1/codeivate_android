@@ -1,23 +1,16 @@
 package com.koki.codeivate;
 
-import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.koki.codeivate.Models.CodeivateUser;
@@ -27,6 +20,8 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
 
     private static final String TAG = "MainActivity";
 
+    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,32 +29,20 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
 
 
         //Call ContentLoader
-        ContentLoader cl = new ContentLoader(this,this,"roosnic1");
-        cl.loadJSON();
-    }
-
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        //actionBar.setTitle(mTitle);
+        /*ContentLoader cl = new ContentLoader(this,this,"roosnic1");
+        cl.loadJSON();*/
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-
-            restoreActionBar();
-            return true;
-        }*/
         getMenuInflater().inflate(R.menu.main, menu);
+
+        searchView = (SearchView) menu.findItem(R.id.search_action).getActionView();
+
+        setupSearchView();
+
         return true;
-        //return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -75,6 +58,24 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void setupSearchView() {
+        if(searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    Log.i(TAG,"Query changed s: " + s);
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    return false;
+                }
+            });
+        }
     }
 
     @Override

@@ -7,6 +7,8 @@
     <string name="errLoadIO">IO Error while loading data from server</string>
     <string name="errConvertJson">Error while converting JSON data</string>
 
+    <string name="search">Search user</string>
+
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
