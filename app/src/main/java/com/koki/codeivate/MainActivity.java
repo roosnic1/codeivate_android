@@ -22,6 +22,7 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
 
     private SearchView searchView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,8 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
         searchView = (SearchView) menu.findItem(R.id.search_action).getActionView();
 
         setupSearchView();
+
+
 
         return true;
     }
