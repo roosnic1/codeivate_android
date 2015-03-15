@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.koki.codeivate.Models.CodeivateLanguage;
 import com.koki.codeivate.Models.CodeivateUser;
 
 
@@ -20,8 +23,11 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
 
     private static final String TAG = "MainActivity";
 
+    private CodeivateUser user;
+
     private SearchView searchView;
 
+    private ListView lvLanguages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +36,12 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
 
 
         //Call ContentLoader
-        /*ContentLoader cl = new ContentLoader(this,this,"roosnic1");
-        cl.loadJSON();*/
+        ContentLoader cl = new ContentLoader(this,this,"roosnic1");
+        cl.loadJSON();
+
+        lvLanguages = (ListView) findViewById(R.id.lvLanguages);
+
+        //setupLanguageListView();
     }
 
 
@@ -63,6 +73,12 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupLanguageListView() {
+        LanguageListAdapter languageListAdapter = new LanguageListAdapter(this,user.languages,lvLanguages.getWidth());
+        lvLanguages.setAdapter(languageListAdapter);
+    }
+
+
 
     private void setupSearchView() {
         if(searchView != null) {
@@ -85,12 +101,15 @@ public class MainActivity extends ActionBarActivity implements IContentLoaderCal
     public void contentLoaderSuccess(CodeivateUser user) {
         Log.i(TAG,"CodeivateUser: " + user.toString());
         Toast.makeText(this,"USer Ready: "+user.toString(),Toast.LENGTH_LONG).show();
+        this.user = user;
+        setupLanguageListView();
     }
 
     @Override
     public void contentLoaderFail(String errorMessage) {
         Log.e(TAG,"ContentLoader failed with message: " + errorMessage);
     }
+
 
 
 }
